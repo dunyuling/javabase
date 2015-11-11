@@ -1,0 +1,97 @@
+<project name="exercise" basedir="/home/liuhuiguang/exercise">
+    <property name="src" value="${basedir}/src" />
+    <property name="build" value="${basedir}/build" /> 
+    <property name="classes" value="${build}/classes" />
+    <property name="jar" value="${build}/jar" />
+    <property name="test" value="${basedir}/test" />    
+    <property name="build.test" value="${build}/test" />
+
+    <path id="classpath">
+	<fileset dir="${basedir}/lib">
+	    <include name="*.jar" />
+	</fileset>
+    </path>
+
+    <target name="init">
+	<mkdir dir="${classes}" />
+	<mkdir dir="${jar}" />
+	<mkdir dir="${test}" />
+	<mkdir dir="${build.test}" />
+    </target>
+
+    <target name="clean">
+	<delete dir="${build}" />
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" destdir="${classes}" includeAntRuntime="false">
+	    <classpath refid="classpath" />
+	</javac>
+        <javac srcdir="${test}" destdir="${build.test}" includeAntRuntime="false">
+	    <classpath >
+		 <pathelement location="${classes}" />
+		 <fileset dir="${basedir}/lib">
+                     <include name="*.jar" />
+                 </fileset>
+	    </classpath>
+        </javac>
+    </target>
+
+
+    <target name="jar" depends="compile">
+        <jar destfile="${jar}/Digest.jar" basedir="${classes}"> 
+           <manifest>
+                <attribute name="Main-Class" value="com.gtan.codec.Digest"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="runDigest" depends="compile">
+        <java classname="com.gtan.codec.Digest" fork="true">
+	    <classpath>
+		<pathelement location="${classes}" />
+	        <fileset dir="${basedir}/lib">
+		    <include name="*.jar" />
+	        </fileset>
+	    </classpath>
+	</java>
+    </target>
+
+
+   <target name="runNioServer" depends="compile" >
+       <java classname="com.gtan.test.NioServer" fork="true" >
+	    <classpath >
+		<pathelement location="${classes}" />
+	    </classpath>
+       </java>
+   </target>
+
+   <target name="runNioClient" depends="compile" >
+	<java classname="com.gtan.test.NioClient" fork="true" >
+	    <classpath>
+		<pathelement location="${classes}" />
+	    </classpath>
+	</java>
+   </target>
+	
+  <target name="runJunit_01" depends="compile" >
+      <java classname="com.gtan.junit.Junit_01" fork="true" >
+	  <classpath>
+	       <pathelement location="${classes}" />
+	  </classpath>
+     </java>
+  </target>
+
+  <target name="test" depends="compile" >
+      <junit printsummary="yes" fork="yes" showoutput="true">
+	<classpath> 
+            <pathelement location="${build.test}" />
+	    <pathelement location="${classes}" /> 
+	    <fileset dir="${basedir}/lib">
+                <include name="*.jar" />
+ 	    </fileset>
+        </classpath>
+	<test name="com.gtan.junit2.JunitTest" methods="testSort1,testSort2,testSort3" />
+      </junit>
+  </target>
+</project>
