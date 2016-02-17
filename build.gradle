@@ -5,9 +5,9 @@ version = '1.0'
 
 repositories {
     mavenLocal()
-    maven {
+    /*maven {
         url 'http://nexus.openkoala.org/content/groups/Koala-release'
-    }
+    }*/
     maven {
         url 'http://nexus.gtan.com/content/groups/public'
     }
