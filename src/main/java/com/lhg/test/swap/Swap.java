@@ -1,10 +1,4 @@
-package com.lhg.test;
-
-import com.lhg.test.generic.CollectionGenFoo;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+package com.lhg.test.swap;
 
 /**
  * Created by liuhg on 16-2-23.
@@ -32,7 +26,7 @@ public class Swap {
 //        System.out.println("x: " + list.get(0) + " \t y: " + list.get(1));
 
         //d
-        swap.toSwapObject(10,20);
+        swap.toSwapObject(10, 20);
 
     }
 
