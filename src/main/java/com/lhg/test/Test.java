@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  */
 public class Test {
     static int count = 0;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.setTime(getLastMonthBegin());
 //        int year = calendar.get(Calendar.YEAR);
@@ -163,7 +163,7 @@ public class Test {
 
 
 
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 while(true) {
@@ -188,7 +188,17 @@ public class Test {
 
 
             }
+        }).start();*/
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("thread: " + TLT.get() + " \t " + TLT.class.hashCode());
+            }
         }).start();
+        System.out.println("main: " + TLT.get() + " \t " + TLT.class.hashCode());
+
+
     }
 
     private static int currItem = 0;
