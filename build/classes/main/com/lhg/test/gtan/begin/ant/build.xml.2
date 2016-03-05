@@ -1,0 +1,124 @@
+<project name="exercise">    
+    <path id="classpath">
+	<fileset dir="${basedir}/lib">
+	    <include name="*.jar" />
+	</fileset>
+    </path>
+
+
+     <target name="compile" >
+	 <mkdir dir="build/classes"/>
+   	 <javac srcdir="src" destdir="build/classes" includeAntRuntime="false">
+	     <classpath refid="classpath" />
+	 </javac>
+     </target>
+	
+     <target name="clean">
+	<delete dir="${basedir}/build" />
+     </target>
+
+     <target name="jarGuess">
+	  <mkdir dir="build/jar" />
+          <jar destfile="build/jar/Guess.jar" basedir="build/classes" >
+	      <manifest>
+		  <attribute name="Main-Class" value="com.gtan.guess.Guess"/>
+              </manifest>
+	  </jar>
+     </target>
+
+     <target name="jarTest">
+          <mkdir dir="build/jar" />
+          <jar destfile="build/jar/Test.jar" basedir="build/classes" >
+              <manifest>
+                  <attribute name="Main-Class" value="com.gtan.guess.Test"/>
+              </manifest>
+          </jar>
+     </target>
+
+
+     <target name="jarTestFile">
+          <mkdir dir="build/jar" />
+          <jar destfile="build/jar/TestFile.jar" basedir="build/classes" >
+              <manifest>
+                  <attribute name="Main-Class" value="com.gtan.file.TestFile"/>
+              </manifest>
+          </jar>         
+     </target>
+
+     <target name="jarLottery">
+          <mkdir dir="build/jar" />
+          <jar destfile="build/jar/Lottery.jar" basedir="build/classes" >
+              <manifest>
+                  <attribute name="Main-Class" value="com.gtan.lottery.Lottery"/>
+              </manifest>
+          </jar>
+     </target>
+
+     <target name="jarChatServer">
+          <mkdir dir="build/jar" />
+          <jar destfile="build/jar/ChatServer.jar" basedir="build/classes" >
+              <manifest>
+                  <attribute name="Main-Class" value="com.gtan.consoleSocket.ChatServer"/>
+              </manifest>
+          </jar>
+     </target>
+
+
+     <target name="jarChatClient">
+	  <mkdir dir="build/jar" />
+	  <jar destfile="build/jar/ChatClient.jar" basedir="build/classes">
+	       <manifest>
+		   <attribute name="Main-class" value="com.gtan.consoleSocket.ChatClient" />
+	       </manifest>
+	  </jar>
+     </target>
+
+     <target name="jarDigest">
+	  <mkdir dir="build/jar"/>
+	  <jar destfile="build/jar/Digest.jar" basedir="build/classes" excludes="**/Test.class">
+	       <restrict>
+		   <name name="**/*.class" />
+		   <archives>
+			<zips>
+			    <fileset dir="${basedir}/lib" includes="**/*.jar" />
+			</zips>
+		   </archives>
+	       </restrict>
+               <manifest>
+                   <attribute name="Main-class" value="com.gtan.codec.Digest" />
+               </manifest>
+          </jar>
+     </target>
+
+     <target name="runGuess" depends="compile,jarGuess">
+	 <java jar="build/jar/Guess.jar" fork="true" />
+     </target>
+   
+     <target name="runTest" depends="compile,jarTest">
+         <java jar="build/jar/Test.jar" fork="true" >
+	     <arg value="${test}" />
+	 </java>
+     </target>
+
+    <target name="runTestFile" depends="compile,jarTestFile" >
+	<java jar="build/jar/TestFile.jar" fork="true" >
+	    <arg value="${param}" />
+	</java>
+    </target>    
+	
+    <target name="runLottery" depends="compile,jarLottery">
+        <java jar="build/jar/Lottery.jar" fork="true" />
+    </target> 
+
+    <target name="runChatServer" depends="compile,jarChatServer">
+	<java jar="build/jar/ChatServer.jar" fork="true" />
+    </target>
+
+    <target name="runChatClient" depends="compile,jarChatClient">
+	<java jar="build/jar/ChatClient.jar" fork="true" />
+    </target>
+
+    <target name="runDigest" depends="clean,compile,jarDigest" >
+	<java jar="build/jar/Digest.jar" fork="true" />
+    </target>
+</project>

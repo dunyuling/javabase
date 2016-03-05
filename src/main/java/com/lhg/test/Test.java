@@ -3,6 +3,7 @@ package com.lhg.test;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -32,11 +33,10 @@ public class Test {
 //        Date date = formatDate("2015-10-28  11:22:33.000");
 //        System.out.println(date.toString());
 //        System.out.println(MediaType.audio.ordinal());
-        String s = "√";
+        /*String s = "√";
         String s1 = "√";
-        System.out.println(s == s1);
-
-
+        System.out.println(s == s1);*/
+        System.out.println((int) "　".charAt(0));
     }
 
     public static Date formatDate(String time) {
