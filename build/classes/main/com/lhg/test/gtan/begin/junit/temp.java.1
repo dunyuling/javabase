@@ -1,0 +1,27 @@
+abstract class BaseVersion implements Comparable{
+  int firstV, secondV, thirdV;
+  String ver;
+  Category category;
+}
+class RCVersion extends BaseVersion{
+  int rc;
+  public RCVersion(String val){..}
+  
+}
+class StandardVersion extends BaseVersion{
+  
+}
+class TempVersion extends BaseVersion {
+  int minorV;
+}
+class SnapshotVersion extends BaseVersion {
+  int snapshotV;
+  override int compareTo(BaseVersion another) {
+    switch(another.category){
+      case Snapshot: compare(firstV, secondV, thirdV)...
+     
+  } 
+}
+
+Collection.sort(data, new Comparator{...})
+
