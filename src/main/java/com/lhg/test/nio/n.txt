@@ -1,0 +1,60 @@
+
+package com.example.surfacemediaplayer;
+
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.Environment;
+import android.app.Activity;
+import android.view.Menu;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.SurfaceHolder.Callback;
+
+public class SurfaceMediaPlayer extends Activity {
+
+    SurfaceView surfaceView;
+    MediaPlayer mediaPlayer;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_surface_media_player);
+
+        mediaPlayer=new MediaPlayer();
+        surfaceView=(SurfaceView) this.findViewById(R.id.surfaceView1);
+
+        surfaceView.getHolder().addCallback(new Callback() {
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {
+
+            }
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {
+                play();
+            }
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width,
+                            int height) {
+
+            }
+    });
+}
+
+    private void play() {
+    try {
+            String path = Environment.getExternalStorageDirectory().getPath()+"/Movies/run_to_you.3gp";
+            mediaPlayer.setDataSource(path);
+            mediaPlayer.setDisplay(surfaceView.getHolder());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+    } catch (Exception e) {
+            // TODO: handle exception
+    }
+}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.activity_surface_media_player, menu);
+        return true;
+    }
+}
