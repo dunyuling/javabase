@@ -1,10 +1,11 @@
 package com.lhg.test;
 
+import com.lhg.test.encrypt.AESencrpt;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.IOException;
+import java.net.*;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,9 +22,9 @@ public class Test {
 
     static volatile int count = 0;
     static volatile Timer timer = new Timer();
-    static volatile  boolean c = false;
+    static volatile boolean c = false;
 
-    public static void main(String [] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
 //        InetAddress netAddress = getInetAddress();
 //        System.out.println("host ip:" + getHostIp(netAddress));
 //        System.out.println("host name:" + getHostName(netAddress));
@@ -144,8 +145,6 @@ public class Test {
 //        });
 
 
-        
-
 //        System.out.println(new Date(1464155801512l));
 //
 //
@@ -156,7 +155,104 @@ public class Test {
 //        boolean result = queue.remove(2);
 //        System.out.println("--- \t" +  result);
 //        queue.forEach(System.out::println);
+
+//        Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                System.out.println("----");
+//            }
+//        };
+//        runnable.run();
+
+
+        /*Executor downloadExecutor = Executors.newCachedThreadPool(new ThreadFactory() {
+            @Override
+            public Thread newThread(@NotNull Runnable r) {
+                return new Thread(r);
+            }
+        });*/
+//        Executor downloadExecutor = Executors.newSingleThreadExecutor();
 //
+//        downloadExecutor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                /*try {
+//                    Thread.sleep(10000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }*/
+//                System.out.println("hashcode: " + Thread.currentThread().hashCode() + " \t 1111111111");
+//            }
+//        });
+//
+//        downloadExecutor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                System.out.println("hashcode: " + Thread.currentThread().hashCode() + " \t 2222222222");
+//            }
+//        });
+//
+//        downloadExecutor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                System.out.println("hashcode: " + Thread.currentThread().hashCode() + " \t 33333333333333");
+//            }
+//        });
+
+        /*for(int count =0; count < 1; count++) {
+            System.out.println("count: " + count + " begin: " +  new Date());
+            URL url = null;
+            try {
+                url = new URL("http://localhost:8080");
+//            url = new URL("http://www.***.coom");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setReadTimeout(5000);
+                connection.connect();
+
+                int statusCode = connection.getResponseCode();
+                System.out.println("statusCode: " + statusCode);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                System.out.println("count: " + count + " end: " +  new Date());
+            }
+            Thread.sleep(1000);
+        }*/
+//        Thread.sleep(15000);
+
+        /*for(int i = 0;i<10;i++) {
+            System.out.println(i);
+            if(i == 5) break;
+        }
+*/
+
+        try {
+            String password = "mypassword";
+            String passwordEnc = AESencrpt.encrypt(password);
+            String passwordDec = AESencrpt.decrypt(passwordEnc);
+
+            System.out.println("Plain Text : " + password);
+            System.out.println("Encrypted Text : " + passwordEnc);
+            System.out.println("Decrypted Text : " + passwordDec);
+
+            System.out.println(AESencrpt.encrypt(String.valueOf(1)));
+            System.out.println(AESencrpt.encrypt(String.valueOf(2)));
+            System.out.println(AESencrpt.encrypt(String.valueOf(3)));
+            System.out.println(AESencrpt.encrypt(String.valueOf(4)));
+            System.out.println(AESencrpt.encrypt(String.valueOf(5)));
+            System.out.println(AESencrpt.encrypt(String.valueOf(6)));
+            System.out.println(AESencrpt.encrypt(String.valueOf(7)));
+            System.out.println(AESencrpt.encrypt(String.valueOf(8)));
+
+            System.out.println(System.currentTimeMillis());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
+
         System.exit(0);
     }
 
@@ -185,7 +281,7 @@ public class Test {
         }
     }
 
-    private static void test1(List<Integer> l1 ,List<Integer> l2,List<Integer> l3) {
+    private static void test1(List<Integer> l1, List<Integer> l2, List<Integer> l3) {
         l2.removeAll(l1);
         System.out.println(l2);
         l1.removeAll(l3);
@@ -198,47 +294,46 @@ public class Test {
             @Override
             public void run() {
                 System.out.println(timer.hashCode() + "\t " + hashCode());
-                while(count < 10) {
+                while (count < 10) {
                     System.out.println(count);
                     count++;
                 }
-                if(count>=10) {
+                if (count >= 10) {
                     count = 0;
-                    c=true;
+                    c = true;
                     timer.cancel();
                     System.out.println("timer is canceled");
                 }
             }
-        },50,100);
+        }, 50, 100);
     }
 
-    public static InetAddress getInetAddress(){
+    public static InetAddress getInetAddress() {
 
-        try{
+        try {
             return InetAddress.getLocalHost();
-        }catch(UnknownHostException e){
+        } catch (UnknownHostException e) {
             System.out.println("unknown host!");
         }
         return null;
 
     }
 
-    public static String getHostIp(InetAddress netAddress){
-        if(null == netAddress){
+    public static String getHostIp(InetAddress netAddress) {
+        if (null == netAddress) {
             return null;
         }
         String ip = netAddress.getHostAddress(); //get the ip address
         return ip;
     }
 
-    public static String getHostName(InetAddress netAddress){
-        if(null == netAddress){
+    public static String getHostName(InetAddress netAddress) {
+        if (null == netAddress) {
             return null;
         }
         String name = netAddress.getHostName(); //get the host address
         return name;
     }
-
 
 
     private void test() {
