@@ -10,7 +10,7 @@ import java.security.Key;
 /**
  * Created by liuhg on 16-6-20.
  */
-public class AESencrpt {
+public class AESEncrypt {
     private static final String ALGO = "AES";
     private static final byte[] keyValue =
             new byte[]{'E', 'N', 'C', 'R', 'Y', 'P', 'T',
@@ -23,6 +23,7 @@ public class AESencrpt {
         c.init(Cipher.ENCRYPT_MODE, key);
         byte[] encVal = c.doFinal(Data.getBytes());
         String encryptedValue = new BASE64Encoder().encode(encVal);
+
         return encryptedValue;
     }
 
@@ -40,4 +41,17 @@ public class AESencrpt {
         Key key = new SecretKeySpec(keyValue, ALGO);
         return key;
     }
+
+    public static void main(String[] args) {
+        try {
+            String id = AESEncrypt.decrypt("0y+zxzibyc153VBwQg4+Fw==");
+            System.out.println(AESEncrypt.encrypt("2838"));
+            System.out.println(id);
+            System.out.println(AESEncrypt.decrypt("BFFin4ZHzUPSX8gb/myaRg=="));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+//C7iHtqLi9Q8KPhzEgRL6ug==
